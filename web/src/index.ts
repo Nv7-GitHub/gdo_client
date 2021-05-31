@@ -1,11 +1,12 @@
+/* Bootstrap */
 import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+/* Bootstrap */
 
-function component() {
-  const element = document.createElement('div');
+import { createLogin } from './login';
+import { title } from './types';
+document.title = title;
+document.body.style.backgroundColor = "#f5f5f5";
 
-  element.innerHTML = "Hello webpack!"
-
-  return element;
-}
-
-document.body.appendChild(component());
+const login = createLogin();
+document.body.appendChild(login);
