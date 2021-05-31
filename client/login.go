@@ -32,5 +32,7 @@ func login() string {
 		os.Exit(0)
 	}
 
+	fmt.Println("Logged in!")
+
 	return resp.Data
 }
