@@ -5,15 +5,63 @@
         {
             "src": "/favicons/android-chrome-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "/favicons/android-chrome-512x512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         }
     ],
     "theme_color": "#000000",
     "background_color": "#000000",
-    "display": "standalone"
+    "display": "standalone",
+    "start_url": "/",
+    "shortcuts": [
+        {
+            "name": "Did I leave my garage door open?",
+            "short_name": "Garage",
+            "description": "Open or close your garage door",
+            "url": "/",
+            "icons": [
+                {
+                    "src": "/favicons/android-chrome-192x192.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any"
+                },
+                {
+                    "src": "/favicons/android-chrome-512x512.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any"
+                }
+            ]
+        }
+    ],
+    "description": "The GDO web client!",
+    "screenshots": [
+        {
+            "src": "/screenshots/mobile1.png",
+            "type": "image/png",
+            "sizes": "1086x1574"
+        },
+        {
+            "src": "/screenshots/mobile2.png",
+            "type": "image/png",
+            "sizes": "1086x1574"
+        },
+        {
+            "src": "/screenshots/desktop1.png",
+            "type": "image/png",
+            "sizes": "2880x1578"
+        },
+        {
+            "src": "/screenshots/desktop2.png",
+            "type": "image/png",
+            "sizes": "2880x1578"
+        }
+      ]
 }
