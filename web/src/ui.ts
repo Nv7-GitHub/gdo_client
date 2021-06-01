@@ -1,24 +1,5 @@
-import { doorOpenHandler } from "./handlers";
+import { actions } from "./handlers";
 import { logout } from "./login";
-
-type ActionType = {
-  name: string,
-  titleName: string,
-  handler: (btn: HTMLButtonElement, cont: HTMLElement) =>  void,
-}
-
-const actions: Record<string, ActionType> = {
-  "dooropen": {
-    name: "dooropen",
-    titleName: "Open Door",
-    handler: doorOpenHandler,
-  },
-  "takeimg": {
-    name: "takeimg",
-    titleName: "Take Image",
-    handler: null,
-  },
-};
 
 export function mainUI(cont: HTMLElement) {
   // Cleanup
