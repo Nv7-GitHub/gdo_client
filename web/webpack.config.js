@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   return {
@@ -29,5 +30,10 @@ module.exports = (env, argv) => {
       ],
     },
     devtool: argv.mode == "production" ? false : 'source-map',
+    plugins: [
+      new webpack.DefinePlugin({
+        __ISDEBUG__: JSON.stringify(argv.mode == "development"),
+      }),
+    ]
   }
 };
