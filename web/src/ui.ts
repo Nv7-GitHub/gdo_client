@@ -1,5 +1,8 @@
-import { actions } from "./handlers";
+import { openDoor, sendReq } from "./actions";
 import { logout } from "./login";
+import { getSpinner, transitionLength } from "./util";
+
+let isOpened = false;
 
 export function mainUI(cont: HTMLElement) {
   // Cleanup
@@ -22,53 +25,49 @@ export function mainUI(cont: HTMLElement) {
   header.classList.add("h3", "mb-3", "fw-normal");
   block.appendChild(header);
 
-  // Select
-  let select = document.createElement("select");
-  select.classList.add("form-select", "form-control");
-  
-  let firstOption = document.createElement("option");
-  firstOption.selected = true;
-  firstOption.disabled = true;
-  firstOption.innerText = "Select an action to perform";
-  select.appendChild(firstOption)
+  // Text
+  let txt = document.createElement("span");
+  txt.style.transitionDuration = transitionLength;
+  txt.style.opacity = "0";
+  block.appendChild(txt);
 
-  Object.values(actions).forEach((elem) => {
-    let option = document.createElement("option");
-    option.value = elem.name;
-    option.innerText = elem.titleName;
-    select.appendChild(option);
-  });
+  // Door Open Btn
+  let doorOpenBtn = document.createElement("button");
+  doorOpenBtn.appendChild(getSpinner());
+  doorOpenBtn.disabled = true;
+  doorOpenBtn.classList.add("btn", "btn-primary");
+  doorOpenBtn.onclick = () => {openDoor(doorOpenBtn, txt)}
 
-  // Btn
-  let btn = document.createElement("button");
-  btn.classList.add("btn", "btn-primary");
-  btn.innerText = "Perform Action"
-  btn.onclick = () => {
-    if (select.selectedIndex > 0) {
-      actions[select.value].handler(btn, cont);
-    }
-  }
-
-  // Input group
-  let group = document.createElement("div");
-  group.classList.add("input-group");
-  group.appendChild(select);
-  group.appendChild(btn);
-  block.appendChild(group);
-
-  // Other Actions
+  // Logout Btn
   let logoutBtn = document.createElement("button");
   logoutBtn.innerText = "Logout";
-  logoutBtn.classList.add("btn", "btn-danger", "mt-3");
+  logoutBtn.classList.add("btn", "btn-danger");
   logoutBtn.onclick = () => {logout(cont)}
-  
-  let otherGroup = document.createElement("div");
-  otherGroup.style.width = "100%";
-  otherGroup.classList.add("btn-group");
-  otherGroup.appendChild(logoutBtn);
-  block.appendChild(otherGroup);
+
+  // Group
+  let group = document.createElement("div");
+  group.style.width = "100%";
+  group.classList.add("btn-group", "mt-3");
+  group.appendChild(doorOpenBtn);
+  group.appendChild(logoutBtn);
+  block.appendChild(group);
 
   // Finish
   cont.appendChild(block);
   cont.style.opacity = "100";
+
+  // Load data
+  updateStatus(doorOpenBtn, txt, true);
+}
+
+export async function updateStatus(btn: HTMLButtonElement, txt: HTMLSpanElement, resend: boolean) {
+  if (resend) {
+    isOpened = await sendReq("isopen") == "true";
+  }
+
+  txt.innerText = isOpened ? "Your garage door is open." : "Your garage door is closed.";
+  txt.style.opacity = "100";
+  btn.disabled = false;
+  btn.removeChild(btn.firstChild);
+  btn.innerText = isOpened ? "Close Door" : "Open Door";
 }
