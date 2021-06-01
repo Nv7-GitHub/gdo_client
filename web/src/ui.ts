@@ -1,15 +1,24 @@
+import { doorOpenHandler } from "./handlers";
 import { logout } from "./login";
 
-const actions = [
-  {
+type ActionType = {
+  name: string,
+  titleName: string,
+  handler: (btn: HTMLButtonElement, cont: HTMLElement) =>  void,
+}
+
+const actions: Record<string, ActionType> = {
+  "dooropen": {
     name: "dooropen",
     titleName: "Open Door",
+    handler: doorOpenHandler,
   },
-  {
+  "takeimg": {
     name: "takeimg",
     titleName: "Take Image",
+    handler: null,
   },
-];
+};
 
 export function mainUI(cont: HTMLElement) {
   // Cleanup
@@ -42,7 +51,7 @@ export function mainUI(cont: HTMLElement) {
   firstOption.innerText = "Select an action to perform";
   select.appendChild(firstOption)
 
-  actions.forEach((elem) => {
+  Object.values(actions).forEach((elem) => {
     let option = document.createElement("option");
     option.value = elem.name;
     option.innerText = elem.titleName;
@@ -53,6 +62,11 @@ export function mainUI(cont: HTMLElement) {
   let btn = document.createElement("button");
   btn.classList.add("btn", "btn-primary");
   btn.innerText = "Perform Action"
+  btn.onclick = () => {
+    if (select.selectedIndex > 0) {
+      actions[select.value].handler(btn, cont);
+    }
+  }
 
   // Input group
   let group = document.createElement("div");
