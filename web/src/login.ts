@@ -1,21 +1,14 @@
-import { prefix, getSpinner, getWarningAlert, setUID } from "./util";
+import { mainUI } from "./ui";
+import { prefix, getSpinner, getWarningAlert, setUID, transitionLength, transitionNum } from "./util";
 
-const transitionLength = "0.2s";
-const transitionNum = 200;
+export function createLogin(cont: HTMLElement) {
+  // Cleanup
+  while (cont.firstChild) {
+    cont.removeChild(cont.firstChild);
+  }
 
-export function createLogin() {
+  // Init
   let isRegistering = false;
-
-  // Cont
-  let cont = document.createElement("main");
-  cont.style.position = "absolute";
-  cont.style.top = "0";
-  cont.style.left = "0";
-  cont.style.display = "flex";
-  cont.style.alignItems = "center";
-  cont.style.width = "100vw";
-  cont.style.height = "100vh";
-  cont.style.zIndex = "-1";
 
   // Block
   let block = document.createElement("form");
@@ -131,12 +124,12 @@ export function createLogin() {
     }, transitionNum)
   }
   btn.onclick = () => {
-    login(isRegistering, btn, btnText, username.value, pwd.value);
+    login(isRegistering, btn, btnText, cont, username.value, pwd.value);
   }
 
   // Finish up
   cont.appendChild(block);
-  document.body.appendChild(cont);
+  cont.style.opacity = "100";
 }
 
 type loginResponse = {
@@ -144,7 +137,7 @@ type loginResponse = {
   data: string,
 }
 
-async function login(isRegistering: boolean, btn: HTMLButtonElement, btnText: HTMLSpanElement, username: string, password: string) {
+async function login(isRegistering: boolean, btn: HTMLButtonElement, btnText: HTMLSpanElement, cont: HTMLElement, username: string, password: string) {
   const url = prefix + (isRegistering ? "create_user/" : "login_user/");
 
   btn.disabled = true;
@@ -170,4 +163,13 @@ async function login(isRegistering: boolean, btn: HTMLButtonElement, btnText: HT
   }
 
   setUID(res.data);
+
+  cont.style.opacity = "0";
+  setTimeout(() => {mainUI(cont)}, transitionNum);
+}
+
+export function logout(cont: HTMLElement) {
+  cont.style.opacity = "0";
+  setUID("");
+  setTimeout(() => {createLogin(cont)}, transitionNum);
 }

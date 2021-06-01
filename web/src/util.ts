@@ -1,9 +1,13 @@
 export const title = "GDO";
 declare var __ISDEBUG__: boolean;
 export const prefix = __ISDEBUG__ ? "http://localhost:3000/" : "https://api.nv7haven.tk/";
+export const transitionLength = "0.2s";
+export const transitionNum = 200;
 
-export var uid = "";
+
+export var uid = localStorage.getItem("uid");
 export function setUID(newUID: string) {
+  localStorage.setItem("uid", newUID);
   uid = newUID;
 }
 
