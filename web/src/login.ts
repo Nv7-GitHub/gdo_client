@@ -22,7 +22,7 @@ export function createLogin(cont: HTMLElement) {
 
   // Icon
   let icon = document.createElement("i");
-  icon.classList.add("fa", "fa-user-circle", "mb-3");
+  icon.classList.add("bi", "bi-person-circle", "mb-3");
   icon.style.fontSize = "5em";
   block.appendChild(icon);
 

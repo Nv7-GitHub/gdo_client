@@ -1,2 +1,2 @@
-dist/main.js
-dist/main.js*
+dist/*
+!dist/index.html

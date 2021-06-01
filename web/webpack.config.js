@@ -27,6 +27,13 @@ module.exports = (env, argv) => {
           test: /\.css$/,
           use: ['style-loader', 'css-loader']
         },
+        {
+          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          include: path.resolve(__dirname, './node_modules/bootstrap-icons/font/fonts'),
+          use: {
+            loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+          }
+        },
       ],
     },
     devtool: argv.mode == "production" ? false : 'source-map',
