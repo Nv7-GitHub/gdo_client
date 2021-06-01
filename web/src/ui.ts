@@ -1,6 +1,6 @@
 import { openDoor, sendReq } from "./actions";
 import { logout } from "./login";
-import { getSpinner, transitionLength } from "./util";
+import { getSpinner, getWarningAlert, transitionLength } from "./util";
 
 let isOpened = false;
 
@@ -62,7 +62,13 @@ export function mainUI(cont: HTMLElement) {
 
 export async function updateStatus(btn: HTMLButtonElement, txt: HTMLSpanElement, resend: boolean) {
   if (resend) {
-    isOpened = await sendReq("isopen") == "true";
+    const res = await sendReq("isopen");
+    if (res.includes("gdo: ")) {
+      const err = res.replace("gdo: ", "");
+      document.body.prepend(getWarningAlert(err));
+      updateStatus(btn, txt, false);
+    }
+    isOpened = res == "true";
   }
 
   txt.innerText = isOpened ? "Your garage door is open." : "Your garage door is closed.";
