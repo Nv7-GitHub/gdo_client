@@ -2,3 +2,4 @@ dist/*
 !dist/index.html
 !dist/favicons
 !dist/screenshots
+!dist/*.webmanifest
