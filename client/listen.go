@@ -7,6 +7,8 @@ import (
 	"os/signal"
 	"strings"
 	"time"
+
+	"github.com/cgxeiji/servo"
 )
 
 type eventRequest struct {
@@ -20,9 +22,16 @@ func listen() {
 	go func() {
 		<-c
 		fmt.Println("Disconnecting...")
+
+		// Disconnect from server
 		resp, err := http.Post(prefix+"gdo/disconnect", "text/plain", strings.NewReader(uid))
 		handle(err)
 		getContent(resp)
+
+		// Disconnect servo
+		motor.Close()
+		servo.Close()
+
 		os.Exit(0)
 	}()
 

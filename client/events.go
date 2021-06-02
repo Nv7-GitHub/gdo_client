@@ -21,7 +21,13 @@ func getData() {
 		servoPin, err = strconv.Atoi(input("Servo Pin: "))
 	}
 	motor = servo.New(servoPin)
+	motor.SetPosition(90)
 	motor.SetSpeed(0)
+
+	err = motor.Connect()
+	if err != nil {
+		panic(err)
+	}
 }
 
 var events = map[string]func() string{
@@ -32,10 +38,9 @@ var events = map[string]func() string{
 func doorOpen() string {
 	motor.SetSpeed(1)
 
-	motor.SetPosition(180)
-	time.Sleep(time.Second)
-	motor.SetPosition(90)
+	motor.MoveTo(180).Wait()
 	time.Sleep(time.Second / 2)
+	motor.MoveTo(90).Wait()
 
 	motor.SetSpeed(0)
 
