@@ -22,7 +22,6 @@ func getData() {
 	}
 	motor = servo.New(servoPin)
 	motor.SetPosition(0)
-	motor.SetSpeed(0)
 
 	err = motor.Connect()
 	if err != nil {
