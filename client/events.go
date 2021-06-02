@@ -42,8 +42,6 @@ func doorOpen() string {
 	time.Sleep(time.Second / 2)
 	motor.MoveTo(0).Wait()
 
-	motor.SetSpeed(0)
-
 	doorIsOpen = !doorIsOpen
 
 	return "finished"
