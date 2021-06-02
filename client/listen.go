@@ -49,9 +49,9 @@ func listen() {
 		handler, exists := events[ev]
 		if !exists {
 			respond("error: unknown event")
+		} else {
+			respond(handler())
 		}
-
-		respond(handler())
 	}
 }
 
