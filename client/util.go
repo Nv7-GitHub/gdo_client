@@ -10,6 +10,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"syscall"
+
+	"golang.org/x/term"
 )
 
 var buf = bufio.NewReader(os.Stdin)
@@ -20,8 +23,14 @@ func handle(err error) {
 	}
 }
 
-func input(msg string) string {
+func input(msg string, ispasswd ...bool) string {
 	fmt.Print(msg)
+	if len(ispasswd) != 0 {
+		pwd, err := term.ReadPassword(int(syscall.Stdin))
+		handle(err)
+		fmt.Print("\n")
+		return string(pwd)
+	}
 	inp, _, err := buf.ReadLine()
 	handle(err)
 	return string(inp)

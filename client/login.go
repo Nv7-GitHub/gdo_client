@@ -20,7 +20,7 @@ func login() string {
 	}
 
 	username := input("Username: ")
-	password := input("Password: ")
+	password := input("Password: ", true)
 	fmt.Println("Logging in...")
 
 	cont := getContent(post(url+username, password))
