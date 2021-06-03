@@ -1,6 +1,11 @@
 # GDO
 Remotely open your garage door, using your Raspberry Pi, without messing around with your garage door!
 
+# Table of Contents
+- [Setting up the Hardware](#hardware)
+- [Setting up the Client](#software)
+- [Using GDO](#using-gdo)
+
 # Hardware
 The way it works is it uses a servo motor to press a button on a garage door remote. The steps are explained below.
 
@@ -112,7 +117,7 @@ Now, you need to setup the client. First, it will ask you if your garage door is
 
 Now, its ready to go!
 
-## Using GDO
+# Using GDO
 To use GDO, you need to use [The GDO Web App - https://gdoweb.tk](https://gdoweb.tk).
 
 ### Step 1: Log in
