@@ -15,7 +15,7 @@ The way it works is it uses a servo motor to press a button on a garage door rem
 
 ## Part 1: Make a servo able to press your garage door
 
-This varies from remote to remote. If it is working then when rotated, it should click the button on the remote
+This varies from remote to remote. If it is working then when rotated, it should click the button on the remote. I did it by taking apart my garage door opener and building some lego around it.
 
 ## Part 2: Connect the servo to the Raspberry Pi
 
