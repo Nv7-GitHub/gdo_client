@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/cgxeiji/servo"
@@ -11,6 +12,7 @@ import (
 
 var doorIsOpen = false
 var motor *servo.Servo
+var stream = sync.NewCond(&sync.Mutex{})
 
 func getData() {
 	doorIsOpen = strings.Contains(strings.ToLower(input("Is Garage Door Open? (y/n): ")), "y")
@@ -30,16 +32,19 @@ func getData() {
 }
 
 var events = map[string]func() string{
-	"dooropen": doorOpen,
-	"isopen":   isOpen,
+	"dooropen":  doorOpen,
+	"isopen":    isOpen,
+	"nextevent": nextEvent,
 }
 
 func doorOpen() string {
-	motor.SetSpeed(1)
-
 	motor.MoveTo(90).Wait()
 	time.Sleep(time.Second / 2)
 	motor.MoveTo(0).Wait()
+
+	stream.L.Lock()
+	stream.Broadcast()
+	stream.L.Unlock()
 
 	doorIsOpen = !doorIsOpen
 
@@ -51,4 +56,11 @@ func isOpen() string {
 		return "true"
 	}
 	return "false"
+}
+
+func nextEvent() string {
+	stream.L.Lock()
+	stream.Wait()
+	stream.L.Unlock()
+	return ""
 }
