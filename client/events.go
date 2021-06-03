@@ -36,7 +36,7 @@ var events = map[string]func() string{
 
 func doorOpen() string {
 	motor.MoveTo(90).Wait()
-	time.Sleep(time.Second / 2)
+	time.Sleep(time.Second / 4)
 	motor.MoveTo(0).Wait()
 
 	doorIsOpen = !doorIsOpen
